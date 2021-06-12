@@ -10,11 +10,13 @@ public class NavMeshManager : MonoBehaviour
 
     public GameObject safeZonePrefab;
     public GameObject deadZonePrefab;
-    public static int maxLenght = 50;
+    public GameObject grassPropsPrefab;
+    public static int maxLenght = 57;
     public static int maxWidht = 25;
     public GameObject[,] tiles = new GameObject[maxLenght, maxWidht];
 
     private NavMeshSurface nm;
+    private Vector3[] rot = new Vector3[4];
 
     private void Awake()
     {
@@ -22,6 +24,10 @@ public class NavMeshManager : MonoBehaviour
             instance = this;
         else if (instance != this)
             Destroy(gameObject);
+        rot[0] = new Vector3(0, 0, 0);
+        rot[1] = new Vector3(90, 0, 0);
+        rot[2] = new Vector3(0, 90, 0);
+        rot[3] = new Vector3(0, 0, 90);
     }
 
     void Start()
@@ -29,6 +35,15 @@ public class NavMeshManager : MonoBehaviour
         for (int i = 0; i < transform.childCount; i++)
         {
             tiles[-(int)transform.GetChild(i).position.x / 10, (int)transform.GetChild(i).position.z / 10] = transform.GetChild(i).gameObject;
+            LeftGroundManager.instance.ChangeMaterial(-(int)transform.GetChild(i).position.x / 10, (int)transform.GetChild(i).position.z / 10);
+        }
+        foreach (GameObject item in tiles)
+        {
+            if (item != null)
+            {
+                item.transform.rotation = RandomRotation();
+                Instantiate(grassPropsPrefab, item.transform.position, Quaternion.identity);
+            }
         }
         for (int i = 0; i < maxLenght; i++)
         {
@@ -36,11 +51,10 @@ public class NavMeshManager : MonoBehaviour
             {
                 if(tiles[i,j] == null)
                 {
-                    tiles[i,j] = Instantiate(deadZonePrefab, new Vector3(-i * 10, 0, j * 10), Quaternion.identity, transform);
+                    tiles[i,j] = Instantiate(deadZonePrefab, new Vector3(-i * 10, 0, j * 10), RandomRotation(), transform);
                 }
             }
         }
-
         nm = GetComponent<NavMeshSurface>();
         nm.BuildNavMesh();
         UpdateNavMesh();
@@ -59,6 +73,7 @@ public class NavMeshManager : MonoBehaviour
             Destroy(tiles[X, Z]);
             tiles[X, Z] = Instantiate(safeZonePrefab, new Vector3(-X*10, 0, Z*10), Quaternion.identity, transform);
             UpdateNavMesh();
+            LeftGroundManager.instance.ChangeMaterial(X, Z);
         }
         yield return new WaitForSeconds(2);
         ChangerNeighbors(X, Z);
@@ -75,10 +90,16 @@ public class NavMeshManager : MonoBehaviour
                 if (tiles[i, j].CompareTag("DeadZone"))
                 {
                     Destroy(tiles[i, j]);
-                    tiles[i, j] = Instantiate(safeZonePrefab, new Vector3(-i * 10, 0, j * 10), Quaternion.identity, transform);
+                    tiles[i, j] = Instantiate(safeZonePrefab, new Vector3(-i * 10, 0, j * 10), RandomRotation(), transform);
+                    LeftGroundManager.instance.ChangeMaterial(i, j);
                 }
             }
         }
         UpdateNavMesh();
+    }
+
+    Quaternion RandomRotation()
+    {
+        return Quaternion.Euler(rot[Random.Range(0, 4)]);
     }
 }
