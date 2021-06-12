@@ -61,3 +61,8 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+GMTK 21/Library/
+
+GMTK 21/obj/Debug/
+
+GMTK 21/Temp/
