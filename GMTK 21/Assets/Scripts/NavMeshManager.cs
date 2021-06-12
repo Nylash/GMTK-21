@@ -11,6 +11,7 @@ public class NavMeshManager : MonoBehaviour
     public GameObject safeZonePrefab;
     public GameObject deadZonePrefab;
     public GameObject grassPropsPrefab;
+    public GameObject rockBlockPrefab;
     public static int maxLenght = 57;
     public static int maxWidht = 25;
     public GameObject[,] tiles = new GameObject[maxLenght, maxWidht];
@@ -51,7 +52,7 @@ public class NavMeshManager : MonoBehaviour
             {
                 if(tiles[i,j] == null)
                 {
-                    tiles[i,j] = Instantiate(deadZonePrefab, new Vector3(-i * 10, 0, j * 10), RandomRotation(), transform);
+                    tiles[i,j] = Instantiate(deadZonePrefab, new Vector3(-i * 10, 0, j * 10), Quaternion.identity, transform);
                 }
             }
         }
@@ -68,10 +69,10 @@ public class NavMeshManager : MonoBehaviour
 
     public IEnumerator ChangeBlock(int X, int Z)
     {
-        if (tiles[X, Z].CompareTag("DeadZone"))
+        if (tiles[X, Z].CompareTag("DeadBlock"))
         {
             Destroy(tiles[X, Z]);
-            tiles[X, Z] = Instantiate(safeZonePrefab, new Vector3(-X*10, 0, Z*10), Quaternion.identity, transform);
+            tiles[X, Z] = Instantiate(rockBlockPrefab, new Vector3(-X*10, 0, Z*10), Quaternion.identity, transform);
             UpdateNavMesh();
             LeftGroundManager.instance.ChangeMaterial(X, Z);
         }
@@ -87,10 +88,10 @@ public class NavMeshManager : MonoBehaviour
             {
                 if (i < 0 || j < 0 || j > maxWidht || i > maxLenght)
                     continue;
-                if (tiles[i, j].CompareTag("DeadZone"))
+                if (tiles[i, j].CompareTag("DeadBlock"))
                 {
                     Destroy(tiles[i, j]);
-                    tiles[i, j] = Instantiate(safeZonePrefab, new Vector3(-i * 10, 0, j * 10), RandomRotation(), transform);
+                    tiles[i, j] = Instantiate(rockBlockPrefab, new Vector3(-i * 10, 0, j * 10), RandomRotation(), transform);
                     LeftGroundManager.instance.ChangeMaterial(i, j);
                 }
             }

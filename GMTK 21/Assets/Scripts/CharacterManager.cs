@@ -1,20 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CharacterManager : MonoBehaviour
 {
     public float playerSpeed = 2.0f;
     public float turnSmoothTime = 0.1f;
+    public int maxAction = 10;
+    public int currentAction;
     public GameObject safeZonePrefab;
     public GameObject navMeshObject;
+    public Image fillImage;
 
     private CharacterController controller;
     private float turnSmoothVelocity;
 
+    public static CharacterManager instance;
+
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else if (instance != this)
+            Destroy(gameObject);
+    }
+
     private void Start()
     {
         controller = GetComponent<CharacterController>();
+        currentAction = maxAction;
     }
 
     void Update()
@@ -34,7 +49,12 @@ public class CharacterManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            StartCoroutine(NavMeshManager.instance.ChangeBlock(Mathf.RoundToInt(transform.position.x / 10), Mathf.RoundToInt(transform.position.z / 10)));
+            if(currentAction-1 >= 0)
+            {
+                currentAction--;
+                StartCoroutine(NavMeshManager.instance.ChangeBlock(Mathf.RoundToInt(transform.position.x / 10), Mathf.RoundToInt(transform.position.z / 10)));
+                fillImage.fillAmount = (float)currentAction / 10;
+            }
         }
     }
 }

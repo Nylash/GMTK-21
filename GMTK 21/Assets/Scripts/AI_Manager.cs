@@ -27,4 +27,26 @@ public class AI_Manager : MonoBehaviour
         na.CalculatePath(target.transform.position, newPath);
         na.path = newPath;
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        switch (other.tag)
+        {
+            case "DeadZone":
+                print("perdu");
+                break;
+            case "Refill":
+                CharacterManager.instance.currentAction += 3;
+                if (CharacterManager.instance.currentAction > CharacterManager.instance.maxAction)
+                    CharacterManager.instance.currentAction = CharacterManager.instance.maxAction;
+                Destroy(other.gameObject);
+                CharacterManager.instance.fillImage.fillAmount = (float)CharacterManager.instance.currentAction / 10;
+                break;
+            case "Finish":
+                print("win");
+                break;
+            default:
+                break;
+        }
+    }
 }
