@@ -34,7 +34,7 @@ public class CharacterManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            StartCoroutine(NavMeshManager.instance.ChangeBlock((int)transform.position.x / 10, (int)transform.position.z / 10));
+            StartCoroutine(NavMeshManager.instance.ChangeBlock(Mathf.RoundToInt(transform.position.x / 10), Mathf.RoundToInt(transform.position.z / 10)));
         }
     }
 }
