@@ -12,6 +12,11 @@ public class AI_Manager : MonoBehaviour
     public NavMeshAgent na;
     private Animator anim;
 
+    public AudioSource AISource;
+    public AudioClip reffilClip;
+    public AudioClip gameOverClip;
+    public AudioClip winClip;
+
     private void Awake()
     {
         if (instance == null)
@@ -43,17 +48,18 @@ public class AI_Manager : MonoBehaviour
         switch (other.tag)
         {
             case "DeadZone":
-                print("perdu");
+                AISource.PlayOneShot(gameOverClip, .3f);
                 break;
             case "Refill":
                 CharacterManager.instance.currentAction += 3;
                 if (CharacterManager.instance.currentAction > CharacterManager.instance.maxAction)
                     CharacterManager.instance.currentAction = CharacterManager.instance.maxAction;
                 Destroy(other.gameObject);
+                AISource.PlayOneShot(reffilClip, .3f);
                 UI_Manager.instance.Refill();
                 break;
             case "Finish":
-                print("win");
+                AISource.PlayOneShot(winClip, 1f);
                 break;
             default:
                 break;

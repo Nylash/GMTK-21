@@ -15,6 +15,8 @@ public class NavMeshManager : MonoBehaviour
     public static int maxLenght = 57;
     public static int maxWidht = 25;
     public GameObject[,] tiles = new GameObject[maxLenght, maxWidht];
+    public AudioClip firstBlock;
+    public AudioClip otherBlocks;
 
     private NavMeshSurface nm;
     private Vector3[] rot = new Vector3[4];
@@ -72,6 +74,9 @@ public class NavMeshManager : MonoBehaviour
         {
             Destroy(tiles[X, Z]);
             tiles[X, Z] = Instantiate(rockBlockPrefab, new Vector3(-X*10, 0, Z*10), Quaternion.identity, transform);
+            AudioSource[] sources = tiles[X, Z].GetComponents<AudioSource>();
+            sources[0].PlayOneShot(firstBlock, .5f);
+            sources[1].PlayOneShot(otherBlocks, .3f);
             UpdateNavMesh();
             LeftGroundManager.instance.ChangeMaterial(X, Z);
         }

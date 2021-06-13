@@ -17,6 +17,9 @@ public class CharacterManager : MonoBehaviour
     private Animator anim;
     private bool firstUpdate = true;
 
+    public AudioSource twitSource;
+    public AudioClip[] twitClip = new AudioClip[3];
+
     public static CharacterManager instance;
 
     private void Awake()
@@ -65,6 +68,7 @@ public class CharacterManager : MonoBehaviour
             if(currentAction-1 >= 0)
             {
                 anim.SetTrigger("Action");
+                twitSource.PlayOneShot(twitClip[Random.Range(0, twitClip.Length)]);
                 doingAction = true;
                 currentAction--;
                 StartCoroutine(NavMeshManager.instance.ChangeBlock(Mathf.RoundToInt(transform.position.x / 10), Mathf.RoundToInt(transform.position.z / 10)));
