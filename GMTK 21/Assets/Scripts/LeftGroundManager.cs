@@ -8,7 +8,8 @@ public class LeftGroundManager : MonoBehaviour
 
     public GameObject groundPrefab;
     public Material clayRock;
-    public static int maxLenght = 57;
+    public Material clayWood;
+    public static int maxLenght = 75;
     public static int maxWidht = 25;
     public GameObject[,] tiles = new GameObject[maxLenght, maxWidht];
 
@@ -36,9 +37,12 @@ public class LeftGroundManager : MonoBehaviour
         }
     }
 
-    public void ChangeMaterial(int X, int Z)
+    public void ChangeMaterial(int X, int Z,bool wood = false)
     {
-        tiles[X, Z].gameObject.GetComponent<MeshRenderer>().material = clayRock;
+        if(wood)
+            tiles[X, Z].gameObject.GetComponent<MeshRenderer>().material = clayWood;
+        else
+            tiles[X, Z].gameObject.GetComponent<MeshRenderer>().material = clayRock;
     }
 
     Quaternion RandomRotation()
