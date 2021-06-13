@@ -23,6 +23,9 @@
         },
         {
             "m_Id": "fb25b66e6cb0492db95d59a771c242a1"
+        },
+        {
+            "m_Id": "07eee5e8b7ab4fce9e93e71ddd7e7ca9"
         }
     ],
     "m_Keywords": [],
@@ -1060,6 +1063,29 @@
     "m_Labels": [
         "X"
     ]
+}
+
+{
+    "m_SGVersion": 1,
+    "m_Type": "UnityEditor.ShaderGraph.Internal.Vector1ShaderProperty",
+    "m_ObjectId": "07eee5e8b7ab4fce9e93e71ddd7e7ca9",
+    "m_Guid": {
+        "m_GuidSerialized": "62c16a0a-905a-4179-ab70-630f959e8154"
+    },
+    "m_Name": "alpha",
+    "m_DefaultReferenceName": "Vector1_07eee5e8b7ab4fce9e93e71ddd7e7ca9",
+    "m_OverrideReferenceName": "",
+    "m_GeneratePropertyBlock": true,
+    "m_Precision": 0,
+    "overrideHLSLDeclaration": false,
+    "hlslDeclarationOverride": 0,
+    "m_Hidden": false,
+    "m_Value": 1.0,
+    "m_FloatType": 0,
+    "m_RangeValues": {
+        "x": 0.0,
+        "y": 1.0
+    }
 }
 
 {
@@ -2896,7 +2922,7 @@
         "m_Id": "727898b84e404dbdb32481afc739beb6"
     },
     "m_SurfaceType": 0,
-    "m_AlphaMode": 0,
+    "m_AlphaMode": 2,
     "m_TwoSided": false,
     "m_AlphaClip": false,
     "m_CustomEditorGUI": ""
