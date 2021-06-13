@@ -7,6 +7,6 @@ public class Boulangerie : MonoBehaviour
 {
     void LoadStart()
     {
-        SceneManager.LoadScene("SceneStart");
+        SceneManager.LoadScene("Scene Start");
     }
 }

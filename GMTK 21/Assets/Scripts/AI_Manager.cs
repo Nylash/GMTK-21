@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-
+using UnityEngine.SceneManagement;
 public class AI_Manager : MonoBehaviour
 {
     public static AI_Manager instance;
@@ -54,7 +54,7 @@ public class AI_Manager : MonoBehaviour
                 na.isStopped = true;
                 na.velocity = Vector3.zero;
                 CharacterManager.instance.defeat = true;
-                GameObject.FindGameObjectWithTag("Loose").GetComponent<Canvas>().enabled = true;
+                SceneManager.LoadScene("Scene GameOver");
                 break;
             case "Refill":
                 CharacterManager.instance.currentAction += 3;

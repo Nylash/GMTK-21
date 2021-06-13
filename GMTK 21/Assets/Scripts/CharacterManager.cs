@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CharacterManager : MonoBehaviour
 {
@@ -50,7 +51,7 @@ public class CharacterManager : MonoBehaviour
                 finished = true;
                 anim.SetBool("Move", false);
                 AI_Manager.instance.AISource.PlayOneShot(AI_Manager.instance.winClip, .8f);
-                GameObject.FindGameObjectWithTag("Win").GetComponent<Canvas>().enabled = true;
+                SceneManager.LoadScene("Scene Victory");
             }
             else
             {
