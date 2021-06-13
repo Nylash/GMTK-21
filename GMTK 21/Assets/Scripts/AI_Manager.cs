@@ -10,6 +10,7 @@ public class AI_Manager : MonoBehaviour
     public int frameBetweenUpdate = 10;
     public GameObject target;
     public NavMeshAgent na;
+    private Animator anim;
 
     private void Awake()
     {
@@ -19,9 +20,18 @@ public class AI_Manager : MonoBehaviour
             Destroy(gameObject);
 
         na = GetComponent<NavMeshAgent>();
+        anim = GetComponentInChildren<Animator>();
     }
 
-    public void UpdatePath(bool forced = false)
+    private void Update()
+    {
+        if (na.velocity.magnitude > 0)
+            anim.SetBool("Move", true);
+        else
+            anim.SetBool("Move", false);
+    }
+
+    public void UpdatePath()
     {
         NavMeshPath newPath = new NavMeshPath();
         na.CalculatePath(target.transform.position, newPath);
@@ -40,7 +50,7 @@ public class AI_Manager : MonoBehaviour
                 if (CharacterManager.instance.currentAction > CharacterManager.instance.maxAction)
                     CharacterManager.instance.currentAction = CharacterManager.instance.maxAction;
                 Destroy(other.gameObject);
-                CharacterManager.instance.fillImage.fillAmount = (float)CharacterManager.instance.currentAction / 10;
+                UI_Manager.instance.Refill();
                 break;
             case "Finish":
                 print("win");
