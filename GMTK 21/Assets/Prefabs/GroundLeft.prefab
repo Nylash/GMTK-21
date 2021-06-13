@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundPrefab: {fileID: 4541132032120455919, guid: d098918fd8ae4d74d9686f37fda8dd86, type: 3}
-  clayRock: {fileID: 2100000, guid: dbd6c17f0ac38a94abe2a256110478e6, type: 2}
+  groundRockPrefab: {fileID: 4541132032120455919, guid: c6cde0374826b6e4baec4bdf92eb1043, type: 3}
   clayWood: {fileID: 2100000, guid: 20a69b3165804034abe3b08381dad108, type: 2}

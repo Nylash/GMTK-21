@@ -7,7 +7,7 @@ public class LeftGroundManager : MonoBehaviour
     public static LeftGroundManager instance;
 
     public GameObject groundPrefab;
-    public Material clayRock;
+    public GameObject groundRockPrefab;
     public Material clayWood;
     public static int maxLenght = 75;
     public static int maxWidht = 25;
@@ -42,7 +42,10 @@ public class LeftGroundManager : MonoBehaviour
         if(wood)
             tiles[X, Z].gameObject.GetComponent<MeshRenderer>().material = clayWood;
         else
-            tiles[X, Z].gameObject.GetComponent<MeshRenderer>().material = clayRock;
+        {
+            Destroy(tiles[X, Z]);
+            tiles[X, Z] = Instantiate(groundRockPrefab, new Vector3(X * 10, 0, Z * 10), RandomRotation(), transform);
+        }
     }
 
     Quaternion RandomRotation()
