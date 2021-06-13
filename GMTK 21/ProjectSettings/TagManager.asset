@@ -11,6 +11,7 @@ TagManager:
   - UI
   - Win
   - Loose
+  - Props
   layers:
   - Default
   - TransparentFX
