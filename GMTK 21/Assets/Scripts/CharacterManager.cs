@@ -85,8 +85,6 @@ public class CharacterManager : MonoBehaviour
                         twitSource.PlayOneShot(twitClip[Random.Range(0, twitClip.Length)]);
                         doingAction = true;
                         currentAction--;
-                        NavMeshManager.instance.ChangeBlock(Mathf.RoundToInt(transform.position.x / 10), Mathf.RoundToInt(transform.position.z / 10));
-                        UI_Manager.instance.HideLast();
                     }
                 }
             }
@@ -95,6 +93,12 @@ public class CharacterManager : MonoBehaviour
         {
             anim.SetBool("Move",false);
         }
+    }
+
+    public void ApplyChange()
+    {
+        NavMeshManager.instance.ChangeBlock(Mathf.RoundToInt(transform.position.x / 10), Mathf.RoundToInt(transform.position.z / 10));
+        UI_Manager.instance.HideLast();
     }
 
     private void OnTriggerEnter(Collider other)

@@ -23,4 +23,9 @@ public class AnimMethod : MonoBehaviour
     {
         right.PlayOneShot(rightClip);
     }
+
+    void DoChange()
+    {
+        CharacterManager.instance.ApplyChange();
+    }
 }
