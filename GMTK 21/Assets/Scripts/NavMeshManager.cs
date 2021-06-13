@@ -58,7 +58,6 @@ public class NavMeshManager : MonoBehaviour
         }
         nm = GetComponent<NavMeshSurface>();
         nm.BuildNavMesh();
-        UpdateNavMesh();
     }
 
     public void UpdateNavMesh()
