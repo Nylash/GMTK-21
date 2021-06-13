@@ -51,6 +51,10 @@ public class AI_Manager : MonoBehaviour
         {
             case "DeadZone":
                 AISource.PlayOneShot(gameOverClip, .3f);
+                na.isStopped = true;
+                na.velocity = Vector3.zero;
+                CharacterManager.instance.defeat = true;
+                GameObject.FindGameObjectWithTag("Loose").GetComponent<Canvas>().enabled = true;
                 break;
             case "Refill":
                 CharacterManager.instance.currentAction += 3;

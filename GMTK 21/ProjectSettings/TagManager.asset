@@ -8,6 +8,9 @@ TagManager:
   - DeadZone
   - Refill
   - DeadBlock
+  - UI
+  - Win
+  - Loose
   layers:
   - Default
   - TransparentFX

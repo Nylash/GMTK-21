@@ -13,10 +13,12 @@ public class CharacterManager : MonoBehaviour
     public bool doingAction;
     public bool atEnd;
 
+    private bool finished;
     private CharacterController controller;
     private float turnSmoothVelocity;
     private Animator anim;
     private bool firstUpdate = true;
+    public bool defeat;
 
     public AudioSource twitSource;
     public AudioClip[] twitClip = new AudioClip[3];
@@ -41,48 +43,57 @@ public class CharacterManager : MonoBehaviour
 
     void Update()
     {
-        if(atEnd && AI_Manager.instance.atEnd)
+        if (!defeat)
         {
-            anim.SetBool("Move", false);
-            AI_Manager.instance.AISource.PlayOneShot(AI_Manager.instance.winClip, 1f);
-        }
-        else
-        {
-            if (firstUpdate)
+            if (atEnd && AI_Manager.instance.atEnd && !finished)
             {
-                firstUpdate = false;
-                StartCoroutine(NavMeshManager.instance.ChangeBlock(Mathf.RoundToInt(transform.position.x / 10), Mathf.RoundToInt(transform.position.z / 10)));
-            }
-            float horizontal = Input.GetAxisRaw("Horizontal");
-            float vertical = Input.GetAxisRaw("Vertical");
-            Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
-
-            if (direction.magnitude >= 0.1f && !doingAction)
-            {
-                anim.SetBool("Move", true);
-                float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-                transform.rotation = Quaternion.Euler(0f, angle, 0f);
-
-                controller.Move(direction * playerSpeed * Time.deltaTime);
+                finished = true;
+                anim.SetBool("Move", false);
+                AI_Manager.instance.AISource.PlayOneShot(AI_Manager.instance.winClip, .8f);
+                GameObject.FindGameObjectWithTag("Win").GetComponent<Canvas>().enabled = true;
             }
             else
             {
-                anim.SetBool("Move", false);
-            }
-
-            if (Input.GetKeyDown(KeyCode.E) && !doingAction)
-            {
-                if (currentAction - 1 >= 0)
+                if (firstUpdate)
                 {
-                    anim.SetTrigger("Action");
-                    twitSource.PlayOneShot(twitClip[Random.Range(0, twitClip.Length)]);
-                    doingAction = true;
-                    currentAction--;
-                    StartCoroutine(NavMeshManager.instance.ChangeBlock(Mathf.RoundToInt(transform.position.x / 10), Mathf.RoundToInt(transform.position.z / 10)));
-                    UI_Manager.instance.HideLast();
+                    firstUpdate = false;
+                    NavMeshManager.instance.ChangeBlock(Mathf.RoundToInt(transform.position.x / 10), Mathf.RoundToInt(transform.position.z / 10));
+                }
+                float horizontal = Input.GetAxisRaw("Horizontal");
+                float vertical = Input.GetAxisRaw("Vertical");
+                Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
+
+                if (direction.magnitude >= 0.1f && !doingAction)
+                {
+                    anim.SetBool("Move", true);
+                    float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+                    float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+                    transform.rotation = Quaternion.Euler(0f, angle, 0f);
+
+                    controller.Move(direction * playerSpeed * Time.deltaTime);
+                }
+                else
+                {
+                    anim.SetBool("Move", false);
+                }
+
+                if (Input.GetKeyDown(KeyCode.E) && !doingAction)
+                {
+                    if (currentAction - 1 >= 0)
+                    {
+                        anim.SetTrigger("Action");
+                        twitSource.PlayOneShot(twitClip[Random.Range(0, twitClip.Length)]);
+                        doingAction = true;
+                        currentAction--;
+                        NavMeshManager.instance.ChangeBlock(Mathf.RoundToInt(transform.position.x / 10), Mathf.RoundToInt(transform.position.z / 10));
+                        UI_Manager.instance.HideLast();
+                    }
                 }
             }
+        }
+        else
+        {
+            anim.SetBool("Move",false);
         }
     }
 

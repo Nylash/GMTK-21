@@ -10,7 +10,6 @@ public class NavMeshManager : MonoBehaviour
 
     public GameObject safeZonePrefab;
     public GameObject deadZonePrefab;
-    public GameObject grassPropsPrefab;
     public GameObject rockBlockPrefab;
     public static int maxLenght = 57;
     public static int maxWidht = 25;
@@ -45,7 +44,6 @@ public class NavMeshManager : MonoBehaviour
             if (item != null)
             {
                 item.transform.rotation = RandomRotation();
-                Instantiate(grassPropsPrefab, item.transform.position, Quaternion.identity);
             }
         }
         for (int i = 0; i < maxLenght; i++)
@@ -68,19 +66,16 @@ public class NavMeshManager : MonoBehaviour
         AI_Manager.instance.UpdatePath();
     }
 
-    public IEnumerator ChangeBlock(int X, int Z)
+    public void ChangeBlock(int X, int Z)
     {
         if (tiles[X, Z].CompareTag("DeadBlock"))
         {
             Destroy(tiles[X, Z]);
             tiles[X, Z] = Instantiate(rockBlockPrefab, new Vector3(-X*10, 0, Z*10), Quaternion.identity, transform);
-            AudioSource[] sources = tiles[X, Z].GetComponents<AudioSource>();
-            sources[0].PlayOneShot(firstBlock, .5f);
-            sources[1].PlayOneShot(otherBlocks, .3f);
+            tiles[X, Z].GetComponent<AudioSource>().PlayOneShot(firstBlock, .5f);
             UpdateNavMesh();
             LeftGroundManager.instance.ChangeMaterial(X, Z);
         }
-        yield return new WaitForSeconds(2);
         ChangerNeighbors(X, Z);
     }
 
