@@ -17,6 +17,8 @@ public class AI_Manager : MonoBehaviour
     public AudioClip gameOverClip;
     public AudioClip winClip;
 
+    public bool atEnd;
+
     private void Awake()
     {
         if (instance == null)
@@ -59,7 +61,9 @@ public class AI_Manager : MonoBehaviour
                 UI_Manager.instance.Refill();
                 break;
             case "Finish":
-                AISource.PlayOneShot(winClip, 1f);
+                na.isStopped = true;
+                atEnd = true;
+                na.velocity = Vector3.zero;
                 break;
             default:
                 break;

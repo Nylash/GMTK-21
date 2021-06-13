@@ -38,7 +38,7 @@ public class NavMeshManager : MonoBehaviour
         for (int i = 0; i < transform.childCount; i++)
         {
             tiles[-(int)transform.GetChild(i).position.x / 10, (int)transform.GetChild(i).position.z / 10] = transform.GetChild(i).gameObject;
-            LeftGroundManager.instance.ChangeMaterial(-(int)transform.GetChild(i).position.x / 10, (int)transform.GetChild(i).position.z / 10);
+            LeftGroundManager.instance.ChangeMaterial(-(int)transform.GetChild(i).position.x / 10, (int)transform.GetChild(i).position.z / 10, true);
         }
         foreach (GameObject item in tiles)
         {
